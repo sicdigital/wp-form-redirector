@@ -25,7 +25,7 @@ add_shortcode( 'pw-redirect-field', 'sic_password_field' );
 add_action( 'admin_post_nopriv_sic_pw_submit', 'sic_redirect_from_password' );
 add_action( 'admin_post_sic_pw_submit', 'sic_redirect_from_password' );
 
-
+//Create a shortcode that outputs a password form with some hidden fields to pass extra data
 function sic_password_field( $atts ) {
 	$a = shortcode_atts( array(
 		'page' => '/',
@@ -36,6 +36,14 @@ function sic_password_field( $atts ) {
 
 function sic_redirect_from_password() {
 	if ( isset( $_POST['pw-redirect'] )) {
-		wp_redirect($_POST['page'] . '?key=' . $_POST['pw-redirect']);
+
+		//Make an array of keys that you want to accept, if $_POST['pw-redirect'] is equal to one of these set $key_valid to true
+		$key_valid = true;
+
+		if($key_valid){
+			wp_redirect($_POST['page'] . '?key=' . $_POST['pw-redirect']);
+		}else{
+			echo 'Key is incorrect';
+		}
 	}
 }
